@@ -1,0 +1,11 @@
+{
+  "name": "check-frontenda-user",
+  "private": true,
+  "workspaces": ["apps/user-app"],
+  "scripts": {
+    "dev": "npm run dev -w user-app",
+    "build": "npm run build -w user-app",
+    "start": "npm run start -w user-app",
+    "lint": "npm run lint -w user-app"
+  }
+}
