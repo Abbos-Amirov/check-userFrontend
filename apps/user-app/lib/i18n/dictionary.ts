@@ -1,0 +1,216 @@
+/** Lug‘at tuzilishi — uz va ko bir xil kalitlar */
+export type Dictionary = {
+  currencySuffix: string
+  months: { short: string[]; full: string[] }
+  common: {
+    loading: string
+    worker: string
+    dash: string
+    store: string
+    idPrefix: string
+    genericError: string
+  }
+  nav: {
+    home: string
+    checks: string
+    year: string
+    upload: string
+    profile: string
+    back: string
+    menu: string
+  }
+  lang: {
+    uz: string
+    ko: string
+    switchLabel: string
+  }
+  theme: {
+    switchDark: string
+    switchLight: string
+  }
+  notifications: {
+    title: string
+    empty: string
+    loading: string
+    approved: string
+    rejected: string
+    reason: string
+  }
+  auth: {
+    loginTitle: string
+    loginSubtitle: string
+    registerTitle: string
+    registerSubtitle: string
+    employeeId: string
+    password: string
+    fullName: string
+    phone: string
+    workType: string
+    workTypeInside: string
+    workTypeOutside: string
+    showPassword: string
+    hidePassword: string
+    avatarLabel: string
+    avatarOptional: string
+    avatarPick: string
+    avatarRemove: string
+    avatarInvalidFile: string
+    avatarTooLarge: string
+    placeholderId: string
+    loginSubmit: string
+    registerSubmit: string
+    logout: string
+    noAccount: string
+    registerLink: string
+    hasAccount: string
+    loginLink: string
+    errors: {
+      requiredLogin: string
+      fillAll: string
+      loginFailed: string
+      registerFailed: string
+      noToken: string
+      network: string
+      sessionFailed: string
+    }
+  }
+  home: {
+    greeting: string
+    yearTitle: string
+    yearSectionLabel: string
+    yearListLabel: string
+    plannerSectionTitle: string
+    plannerCurrentMonthBadge: string
+    plannerAllocatedLabel: string
+    plannerChecksSumLabel: string
+    plannerChecksCountLabel: string
+    plannerUsageLabel: string
+    plannerNoAllowance: string
+    checksIntro: string
+    checksMonthFilter: string
+    checksMonthCount: string
+    checksEmptyMonth: string
+    checksFutureMonth: string
+    checksImagePreview: string
+    demoCommunityHint: string
+    demoMySubtitle: string
+    demoOthersSubtitle: string
+    demoYouLabel: string
+    demoPeer1: string
+    demoPeer2: string
+    demoPeer3: string
+    demoPeer4: string
+    demoRegisteredLabel: string
+    communityUsersSubtitle: string
+    communityUsersHint: string
+    communityUsersEmpty: string
+    communityCountsTotal: string
+  }
+  profile: {
+    title: string
+    name: string
+    employeeId: string
+    phone: string
+    checksTotal: string
+    activeMonths: string
+    missing: string
+    avatarLabel: string
+    avatarPick: string
+    avatarUploading: string
+    avatarSupabaseOnly: string
+    avatarInvalidFile: string
+    avatarRemove: string
+    save: string
+    saving: string
+    saved: string
+    updateFailed: string
+    passwordSection: string
+    passwordHint: string
+    currentPassword: string
+    newPassword: string
+    currentPasswordRequired: string
+    passwordMin: string
+    employeeIdHint: string
+  }
+  month: {
+    checksTitle: string
+    checksCount: string
+    emptyChecksTitle: string
+    emptyChecksDesc: string
+    addCheck: string
+    aiCalculating: string
+    calcMonth: string
+    aiReading: string
+    invalidMonth: string
+    lockedHint: string
+    backHome: string
+    totalLabel: string
+    receiptWord: string
+    umumiySummaTitle: string
+    demoSectionTitle: string
+    demoSectionHint: string
+    demoCalculateAll: string
+    demoTotalsHeading: string
+    demoTotalKrw: string
+    demoTotalChf: string
+    demoTotalUnit: string
+  }
+  check: {
+    title: string
+    amount: string
+    date: string
+    store: string
+    adminNote: string
+    delete: string
+    confirmDelete: string
+    backToMonth: string
+    altImage: string
+    viewOnlyNote: string
+    submittedBy: string
+    backToFeed: string
+  }
+  ai: {
+    title: string
+    accuracy: string
+    sum: string
+    dismiss: string
+  }
+  receiptScan: {
+    title: string
+    subtitle: string
+    preview: string
+    storeName: string
+    amount: string
+    purchaseDate: string
+    cardInfo: string
+    cardInfoPlaceholder: string
+    items: string
+    itemName: string
+    addItem: string
+    removeItem: string
+    month: string
+    monthRequired: string
+    amountMin: string
+    confirm: string
+    confirming: string
+    cancel: string
+    scanFailed: string
+    confirmFailed: string
+  }
+  badge: {
+    empty: string
+    uploaded: string
+    submitted: string
+    approved: string
+    pending: string
+    rejected: string
+    paid: string
+  }
+  currentMonth: {
+    label: string
+  }
+  metadata: {
+    title: string
+    description: string
+  }
+}
