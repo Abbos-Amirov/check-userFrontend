@@ -5,8 +5,10 @@
   "scripts": {
     "dev": "npm run dev --workspace=user-app",
     "build": "npm run build --workspace=user-app",
-    "start": "npm run prod --workspace=user-app",
+    "start": "npm run start:prod --workspace=user-app",
     "start:server": "npm run start --workspace=user-app",
+    "start:prod": "npm run start:prod --workspace=user-app",
+    "deploy": "npm run deploy --workspace=user-app",
     "lint": "npm run lint --workspace=user-app"
   }
 }
