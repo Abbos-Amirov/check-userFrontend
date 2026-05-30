@@ -68,6 +68,11 @@ export const uz: Dictionary = {
     approved: 'Oylik cheklar qabul qilindi',
     rejected: 'Oylik cheklar rad etildi',
     reason: 'Sabab',
+    approvedMessage: '{{year}}-yil {{month}} oyi uchun yuborgan cheklaringiz qabul qilindi.',
+    rejectedMessage: '{{year}}-yil {{month}} oyi uchun yuborgan cheklaringiz rad etildi.',
+    markRead: 'O‘qildi deb belgilash',
+    markAllRead: 'Hammasini o‘qildi',
+    markedRead: 'O‘qildi',
   },
   auth: {
     loginTitle: 'Xush kelibsiz',
@@ -288,6 +293,11 @@ export const ko: Dictionary = {
     approved: '월별 영수증이 승인되었습니다',
     rejected: '월별 영수증이 거절되었습니다',
     reason: '사유',
+    approvedMessage: '{{year}}년 {{month}} 제출하신 영수증이 승인되었습니다.',
+    rejectedMessage: '{{year}}년 {{month}} 제출하신 영수증이 거절되었습니다.',
+    markRead: '읽음으로 표시',
+    markAllRead: '모두 읽음',
+    markedRead: '읽음',
   },
   auth: {
     loginTitle: '환영합니다',

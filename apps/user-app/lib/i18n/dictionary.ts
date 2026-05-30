@@ -35,6 +35,11 @@ export type Dictionary = {
     approved: string
     rejected: string
     reason: string
+    approvedMessage: string
+    rejectedMessage: string
+    markRead: string
+    markAllRead: string
+    markedRead: string
   }
   auth: {
     loginTitle: string

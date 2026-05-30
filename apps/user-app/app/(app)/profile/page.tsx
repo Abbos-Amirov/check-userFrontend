@@ -11,6 +11,7 @@ import LogoutButton from '@/components/auth/LogoutButton'
 import PageHeader from '@/components/ui/PageHeader'
 import ProfileAvatarUpload from '@/components/profile/ProfileAvatarUpload'
 import { getTranslator } from '@/lib/i18n/server'
+import { getProfileCheckStats } from '@/lib/profile-stats-server'
 
 const ProfileEditForm = dynamic(
   () => import('@/components/profile/ProfileEditForm'),
@@ -39,7 +40,13 @@ export default async function ProfilePage() {
   let distinctMonths = 0
   let uploadAvatarEnabled = false
 
-  if (supabase) {
+  if (apiEditEnabled) {
+    const stats = await getProfileCheckStats(new Date().getFullYear())
+    if (stats) {
+      checksTotal = stats.checksTotal
+      distinctMonths = stats.activeMonths
+    }
+  } else if (supabase) {
     const {
       data: { user },
     } = await supabase.auth.getUser()

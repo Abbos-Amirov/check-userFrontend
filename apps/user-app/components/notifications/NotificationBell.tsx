@@ -91,7 +91,7 @@ function badgeLabel(count: number): string {
 }
 
 export default function NotificationBell() {
-  const { t, locale } = useI18n()
+  const { t, locale, dictionary } = useI18n()
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [notifications, setNotifications] = useState<AppNotification[]>([])
@@ -148,6 +148,24 @@ export default function NotificationBell() {
     }
   }, [])
 
+  function localizedTitle(n: AppNotification): string {
+    return n.type === 'monthly_receipt_rejected'
+      ? t('notifications.rejected')
+      : t('notifications.approved')
+  }
+
+  function localizedMessage(n: AppNotification): string {
+    if (n.year && n.month) {
+      const monthName = dictionary.months.full[n.month - 1] ?? String(n.month)
+      const key =
+        n.type === 'monthly_receipt_rejected'
+          ? 'notifications.rejectedMessage'
+          : 'notifications.approvedMessage'
+      return t(key, { year: n.year, month: monthName })
+    }
+    return n.message
+  }
+
   async function markRead(notification: AppNotification) {
     if (notification.read) return
 
@@ -163,6 +181,22 @@ export default function NotificationBell() {
     } catch {
       /* keyingi poll tiklaydi */
     }
+  }
+
+  async function markAllRead() {
+    const unread = notifications.filter((n) => !n.read)
+    if (unread.length === 0) return
+
+    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })))
+    setUnreadCount(0)
+
+    await Promise.allSettled(
+      unread.map((n) =>
+        fetch(`/api/notifications/${encodeURIComponent(n.id)}/read`, {
+          method: 'PATCH',
+        })
+      )
+    )
   }
 
   async function handleItemClick(notification: AppNotification) {
@@ -194,14 +228,25 @@ export default function NotificationBell() {
           role="dialog"
           aria-label={t('notifications.title')}
         >
-          <div className="flex items-center justify-between border-b border-border px-4 py-3">
-            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-text-tertiary">
-              {t('notifications.title')}
-            </p>
+          <div className="flex items-center justify-between gap-2 border-b border-border px-4 py-3">
+            <div className="flex items-center gap-2">
+              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-text-tertiary">
+                {t('notifications.title')}
+              </p>
+              {unreadCount > 0 && (
+                <span className="rounded-full bg-accent/15 px-2 py-0.5 text-[11px] font-semibold text-accent">
+                  {unreadCount}
+                </span>
+              )}
+            </div>
             {unreadCount > 0 && (
-              <span className="rounded-full bg-accent/15 px-2 py-0.5 text-[11px] font-semibold text-accent">
-                {unreadCount}
-              </span>
+              <button
+                type="button"
+                onClick={() => void markAllRead()}
+                className="shrink-0 rounded-lg px-2 py-1 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 active:scale-95"
+              >
+                {t('notifications.markAllRead')}
+              </button>
             )}
           </div>
 
@@ -222,12 +267,21 @@ export default function NotificationBell() {
                 {notifications.map((n) => {
                   const rejected = n.type === 'monthly_receipt_rejected'
                   const expanded = expandedId === n.id
+                  const title = localizedTitle(n)
+                  const message = localizedMessage(n)
                   return (
                     <li key={n.id}>
-                      <button
-                        type="button"
+                      <div
+                        role="button"
+                        tabIndex={0}
                         onClick={() => void handleItemClick(n)}
-                        className={`flex w-full gap-3 px-4 py-3 text-left transition-colors hover:bg-surface-2 ${
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault()
+                            void handleItemClick(n)
+                          }
+                        }}
+                        className={`flex w-full cursor-pointer gap-3 px-4 py-3 text-left transition-colors hover:bg-surface-2 ${
                           !n.read ? 'bg-accent/[0.04]' : ''
                         }`}
                       >
@@ -247,10 +301,7 @@ export default function NotificationBell() {
                                 n.read ? 'text-primary' : 'font-semibold text-primary'
                               }`}
                             >
-                              {n.title ||
-                                (rejected
-                                  ? t('notifications.rejected')
-                                  : t('notifications.approved'))}
+                              {title}
                             </span>
                             {!n.read && (
                               <span
@@ -260,17 +311,36 @@ export default function NotificationBell() {
                             )}
                           </span>
                           <span className="mt-0.5 block line-clamp-2 text-body-sm text-text-secondary">
-                            {n.message}
+                            {message}
                           </span>
-                          <span className="mt-1 block text-[11px] text-text-tertiary">
-                            {formatWhen(n.createdAt, locale)}
+                          <span className="mt-1 flex items-center justify-between gap-2">
+                            <span className="text-[11px] text-text-tertiary">
+                              {formatWhen(n.createdAt, locale)}
+                            </span>
+                            {n.read ? (
+                              <span className="inline-flex items-center gap-1 text-[11px] font-medium text-success">
+                                <CheckCircleIcon className="h-3.5 w-3.5" />
+                                {t('notifications.markedRead')}
+                              </span>
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  void markRead(n)
+                                }}
+                                className="shrink-0 rounded-lg border border-accent/30 bg-accent/5 px-2 py-1 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/15 active:scale-95"
+                              >
+                                {t('notifications.markRead')}
+                              </button>
+                            )}
                           </span>
                         </span>
-                      </button>
+                      </div>
 
                       {expanded && (
                         <div className="border-t border-border bg-surface-2/50 px-4 py-3">
-                          <p className="text-body-sm leading-relaxed text-primary">{n.message}</p>
+                          <p className="text-body-sm leading-relaxed text-primary">{message}</p>
                           {rejected && n.rejectReason && (
                             <p className="mt-2 rounded-xl border border-danger/25 bg-danger/5 px-3 py-2 text-body-sm text-danger">
                               <span className="font-semibold">{t('notifications.reason')}: </span>
